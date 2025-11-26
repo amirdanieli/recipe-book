@@ -1,4 +1,7 @@
 :root {
+  /* header height variable defaults to desktop header height from Header.module.css */
+  --header-height: 110px;
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -22,12 +25,27 @@ a:hover {
   color: #535bf2;
 }
 
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  /* global background served from public/bg.jpg */
+  /* push content below the fixed header */
+  padding-top: var(--header-height);
+
+  background-image: url('/bg.jpg');
+  background-repeat: no-repeat;
+  /* make the image visually start below the header */
+  background-position: center calc(var(--header-height));
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: #ffffff;
 }
 
 h1 {
@@ -64,5 +82,12 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+/* match mobile header height from Header.module.css */
+@media (max-width: 600px) {
+  :root {
+    --header-height: 110px;
   }
 }

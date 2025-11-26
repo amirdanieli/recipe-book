@@ -1,0 +1,254 @@
+.container {
+  /* Fix height to exactly viewport minus header */
+  height: calc(100vh - var(--header-height, 72px));
+
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  /* Align to top */
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  /* Position content to the right (matching your layout preference) */
+  width: 60%;
+  margin-left: 38%;
+  box-sizing: border-box;
+  text-align: left;
+
+  /* Hide overflow on the main container so page doesn't scroll */
+  overflow: hidden;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #005bb5;
+  margin-top: 0;
+  /* Prevent title from shrinking */
+  flex-shrink: 0;
+}
+
+/* Scrollable List Area */
+.list {
+  /* Only this area scrolls */
+  overflow-y: auto;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  width: 100%;
+  padding: 10px; /* avoids clipping shadows and gives breathing room for scrollbar */
+}
+
+.item {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+  min-height: 120px;
+}
+
+.item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+}
+
+.cardTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.cardCount {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+@media (max-width: 900px) {
+  .container {
+    width: 80%;
+    margin-left: 10%;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 100%;
+    margin-left: 0;
+    align-items: center;
+    text-align: center;
+    height: calc(100vh - var(--header-height, 110px));
+  }
+
+  .list {
+    gap: 15px;
+    padding: 8px;
+  }
+}
+.container {
+  min-height: calc(100vh - var(--header-height));
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  /* Position content to the right (matching your layout preference) */
+  width: 60%;
+  margin-left: 38%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #005bb5;
+  /* Removed negative margin to prevent overlap with grid */
+  margin-top: 0;
+}
+
+/* The Grid Container (like FlatList) */
+.list {
+  display: grid;
+  /* Creates columns that are at least 160px wide */
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* Individual Category Card */
+.item {
+  background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+}
+
+.cardTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.cardCount {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Mobile: full width and centered */
+@media (max-width: 600px) {
+  .container {
+    width: 100%;
+    margin-left: 0;
+    align-items: center;
+    text-align: center;
+    min-height: calc(100vh - var(--header-height));
+  }
+
+  .list {
+    /* On very small screens, grid adapts automatically via minmax */
+    gap: 15px;
+  }
+}
+.container {
+  min-height: calc(100vh - var(--header-height));
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  /* Position content to the right (matching your layout preference) */
+  width: 60%;
+  margin-left: 38%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #005bb5;
+  /* Removed negative margin to prevent overlap with grid */
+  margin-top: 0;
+}
+
+/* The Grid Container (like FlatList) */
+.list {
+  display: grid;
+  /* Creates columns that are at least 160px wide */
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* Individual Category Card */
+.item {
+  background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+}
+
+.cardTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.cardCount {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Mobile: full width and centered */
+@media (max-width: 600px) {
+  .container {
+    width: 100%;
+    margin-left: 0;
+    align-items: center;
+    text-align: center;
+    min-height: calc(100vh - var(--header-height));
+  }
+
+  .list {
+    /* On very small screens, grid adapts automatically via minmax */
+    gap: 15px;
+  }
+}

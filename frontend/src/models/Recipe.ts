@@ -1,0 +1,18 @@
+import type { Ingredient } from "./Ingredient";
+
+export interface Recipe {
+    id: string;
+    title: string;
+    slug: string;
+    story: string;
+    ingredients: Ingredient[];
+    steps: string[];
+    prepTimeMinutes: number;
+    prepTimeNote?: string;
+    difficulty: "Easy" | "Medium" | "Hard";
+    categoryId: string;
+    imageUrl?: string;
+    createdBy: string;
+    createdAt: string;
+    updatedAt: string;
+}
