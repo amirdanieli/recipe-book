@@ -1,9 +1,31 @@
 .container {
-  flex: 1 1 60%;
+  flex: 1;
+  width: 100%;
   margin: 16px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 8px 0;
+}
+
+.split {
+  display: flex;
+  gap: 20%;
+  margin-bottom: 12px;
+}
+
+.left {
+  width: 30%;
+  background-color: #ffffffb5;
+  border-radius: 8px;
+  padding: 12px;
+  box-sizing: border-box;
+  max-height: fit-content;
+}
+
+.right{
+  width: 50%;
+  border-right: 1.3px solid #6a7275;
+  max-height: 50px;
 }
 
 .row {
@@ -32,9 +54,7 @@
 }
 
 .storyContainer {
-  display: block;
-  border-bottom: 1.3px solid #6a7275;
-  opacity: 0.7;
+  display: block;;
   padding-top: 16px;
   padding-bottom: 12px;
   margin-bottom: 8px;

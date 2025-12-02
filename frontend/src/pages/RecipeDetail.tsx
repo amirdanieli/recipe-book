@@ -30,22 +30,28 @@ const RecipeDetail = () => {
         <div className={styles.storyContainer}>
           <p className={styles.story}>{recipe.story}</p>
         </div>
-        <h3>Ingredients:</h3>
-        <ul className={styles.list}>
-          {recipe.ingredients.map((ing, index) => (
-            <li key={index} className={styles.listItem}>
-              {ing.quantity} {ing.unit} {ing.name}
-            </li>
-          ))}
-        </ul>
-        <h3>Steps:</h3>
-        <ol className={styles.list}>
-          {recipe.steps.map((step, index) => (
-            <li key={index} className={styles.listItem}>
-              {step}
-            </li>
-          ))}
-        </ol>
+        <div className={styles.split}>
+          <div className={styles.left}>
+            <h3>Ingredients:</h3>
+            <ul className={styles.list}>
+              {recipe.ingredients.map((ing, index) => (
+                <li key={index} className={styles.listItem}>
+                  {ing.quantity} {ing.unit} {ing.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className={styles.right}>
+            <h3>Steps:</h3>
+            <ol className={styles.list}>
+              {recipe.steps.map((step, index) => (
+                <li key={index} className={styles.listItem}>
+                  {step}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
       </div>
     </div>
   );
