@@ -11,7 +11,7 @@ const SingleCategoryPage = () => {
   const categoryName = name ? decodeURIComponent(name) : "Unkown";
 
   return (
-    <div className={styles.container}>
+    <div className={"content-container"}>
       <h1 className={styles.title}>{categoryName}</h1>
       <div className={styles.list}>
         {recipes.map((r) => (

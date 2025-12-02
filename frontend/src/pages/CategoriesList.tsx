@@ -12,7 +12,7 @@ const categories = [
 
 const CategoriesList = () => {
   return (
-    <div className={styles.container}>
+    <div className={"content-container"}>
       <h1 className={styles.title}>Categories</h1>
       <div className={styles.list}>
         {categories.map((category) => (

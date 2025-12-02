@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <div className={styles.container}>
+    <div className={"content-container"}>
       <Link to="/categories">
         <button className={styles.button}>Recipe Categories</button>
       </Link>
