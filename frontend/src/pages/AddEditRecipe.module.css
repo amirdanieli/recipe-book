@@ -46,6 +46,12 @@ textarea.input {
   font-family: inherit;
 }
 
+.buttonsContainer {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
 /* Button styling */
 .button {
   margin-top: 1rem;

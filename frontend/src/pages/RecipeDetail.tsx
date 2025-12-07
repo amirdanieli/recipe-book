@@ -19,10 +19,13 @@ const RecipeDetail = () => {
     stateRecipe ?? mockRecipes.find((r) => r.slug === recipeSlug) ?? null;
 
   const handleEdit = () => {
-    navigate(`/edit/${encodeURIComponent(recipe.slug)}`);
+    if (recipe) {
+      navigate(`/edit/${encodeURIComponent(recipe.slug)}`);
+    }
   };
 
   const handleDelete = () => {
+    if (!recipe) return;
     if (window.confirm(`Are you sure you want to delete "${recipe.title}"?`)) {
       console.log("Deleting recipe:", recipe.id);
       // TODO: Call API to delete

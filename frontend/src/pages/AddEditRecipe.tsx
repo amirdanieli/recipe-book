@@ -256,9 +256,14 @@ const AddEditRecipe = () => {
           </button>
         </div>
 
-        <button type="submit" className={styles.button}>
-          {isEditMode ? "Save Changes" : "Create Recipe"}
-        </button>
+        <div className={styles.buttonsContainer}>
+          <button type="submit" className={styles.button}>
+            {isEditMode ? "Save Changes" : "Create Recipe"}
+          </button>
+          <button className={styles.button} onClick={() => navigate(-1)}>
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );
