@@ -6,11 +6,13 @@ import CategoriesList from "./pages/CategoriesList";
 import SingleCategoryPage from "./components/Category/SingleCategoryPage";
 import AddEditRecipe from "./pages/AddEditRecipe";
 import RecipeDetail from "./pages/RecipeDetail";
-// import AdminLogin from "./pages/AdminLogin";
+import AdminLogin from "./pages/AdminLogin";
+import { AuthProvider } from "./context/AuthContext";
+import RequireAuth from "./components/Auth/RequireAuth";
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <Header />
       <div className={headerStyles["header-spacer"]} />
       <BrowserRouter>
@@ -19,12 +21,15 @@ function App() {
           <Route path="/categories" element={<CategoriesList />} />
           <Route path="/categories/:name" element={<SingleCategoryPage />} />
           <Route path="/recipes/:slug" element={<RecipeDetail />} />
-          <Route path="/add" element={<AddEditRecipe />} />
-          <Route path="/edit/:slug" element={<AddEditRecipe />} />
-          {/* <Route path="/admin/login" element={<AdminLogin />} /> */}
+
+          <Route element={<RequireAuth />}>
+            <Route path="/add" element={<AddEditRecipe />} />
+            <Route path="/edit/:slug" element={<AddEditRecipe />} />
+          </Route>
+          <Route path="/admin/login" element={<AdminLogin />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </AuthProvider>
   );
 }
 

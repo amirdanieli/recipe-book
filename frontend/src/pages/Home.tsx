@@ -32,7 +32,6 @@ const Home = () => {
             </p>
           </Link>
 
-          {/* Optional: Favorites or Random (Placeholder for now) */}
           <div
             className={styles.card}
             style={{ opacity: 0.7, cursor: "default" }}

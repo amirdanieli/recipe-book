@@ -3,7 +3,8 @@ import type { Recipe } from "../models/Recipe";
 import mockRecipes from "../models/MockRecipe";
 import { categories } from "../models/Category";
 import styles from "./RecipeDetail.module.css";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth"; //Place holder for dev
+// import { useAuth } from "../context/AuthContext"; USE THIS AT PRODUCTION
 
 const RecipeDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -90,7 +91,7 @@ const RecipeDetail = () => {
           </div>
         </div>
         <button
-        className={"button"}
+          className={"button"}
           onClick={() => {
             const catName = (categories || []).find(
               (c) => String(c.id) === String(recipe.categoryId)
