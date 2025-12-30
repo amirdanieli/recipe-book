@@ -21,12 +21,20 @@ const RecipeDetail = () => {
     stateRecipe ?? mockRecipes.find((r) => r.slug === recipeSlug) ?? null;
 
   const handleEdit = () => {
+    if (!isAdmin) {
+      navigate("/admin/login");
+      return;
+    }
     if (recipe) {
       navigate(`/edit/${encodeURIComponent(recipe.slug)}`);
     }
   };
 
   const handleDelete = () => {
+    if (!isAdmin) {
+      navigate("/admin/login");
+      return;
+    }
     if (!recipe) return;
     if (window.confirm(`Are you sure you want to delete "${recipe.title}"?`)) {
       console.log("Deleting recipe:", recipe.id);
