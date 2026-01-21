@@ -1,25 +1,43 @@
 import { useParams } from "react-router-dom";
 import RecipeCard from "../RecipeCard/RecipeCard";
-import mockRecipes from "../../models/MockRecipe";
 import styles from "./SingleCategoryPage.module.css";
 import { Link } from "react-router-dom";
-
-const recipes = [...mockRecipes];
+import { useEffect, useState } from "react";
+import { Recipe } from "../../models/Recipe";
+import { getAllRecipes } from "../../services/recipeService";
+import { getCategoryByIdOrSlug } from "../../services/categoryService";
 
 const SingleCategoryPage = () => {
-  const { name } = useParams<{ name: string }>();
-  const categoryName = name ? decodeURIComponent(name) : "Unkown";
-  // const navigate = useNavigate();
+  const { slug } = useParams<{ slug: string }>();
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [categoryName, setCategoryName] = useState("");
+
+  useEffect(() => {
+    if (slug) {
+      const fetchData = async () => {
+        try {
+          const [recipesData, categoryData] = await Promise.all([
+            getAllRecipes(slug),
+            getCategoryByIdOrSlug(slug),
+          ]);
+          setRecipes(recipesData);
+          setCategoryName(categoryData.name);
+        } catch (err) {
+          console.error("Failed to fetch data", err);
+        }
+      };
+      fetchData();
+    }
+  }, [slug]);
 
   return (
     <div className={"content-container"}>
-      <h1 className={styles.title}>{categoryName}</h1>
+      <h1 className={styles.title}>{categoryName || "Recipes"}</h1>
       <div className={"list"}>
         {recipes.map((r) => (
           <Link
             key={r.id}
-            to={`/recipes/${encodeURIComponent(r.slug)}`}
-            state={{ recipe: r }}
+            to={`/recipes/${r.slug}`}
             className={styles.item}
             aria-label={`View ${r.title} recipes`}
           >
@@ -27,6 +45,7 @@ const SingleCategoryPage = () => {
           </Link>
         ))}
       </div>
+
       {/* <button
         className={"button"}
         onClick={() => {

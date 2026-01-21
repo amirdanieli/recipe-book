@@ -10,7 +10,7 @@ export interface Recipe {
     prepTimeMinutes: number;
     cookTimeMinutes: number;
     prepTimeNote?: string;
-    difficulty: "Easy" | "Medium" | "Hard";
+    difficulty: "EASY" | "MEDIUM" | "HARD";
     categoryId: string;
     imageUrl?: string;
     createdBy: string;

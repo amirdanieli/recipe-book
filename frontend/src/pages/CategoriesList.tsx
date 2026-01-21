@@ -1,18 +1,24 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./CategoriesList.module.css";
-import categories from "../models/Category";
-
-// const categories = [
-//   { id: 1, name: "Breakfast", count: 12 },
-//   { id: 2, name: "Lunch", count: 25 },
-//   { id: 3, name: "Dinner", count: 18 },
-//   { id: 4, name: "Dessert", count: 10 },
-//   { id: 5, name: "Snacks", count: 8 },
-//   { id: 6, name: "Drinks", count: 5 },
-// ];
+import { useEffect, useState } from "react";
+import { Category } from "../models/Category";
+import { getAllCategories } from "../services/categoryService";
 
 const CategoriesList = () => {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getAllCategories();
+        setCategories(data);
+      } catch (err) {
+        console.error("Failed to fetch categories", err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   return (
     <div className={"content-container"}>
@@ -21,7 +27,7 @@ const CategoriesList = () => {
         {categories.map((category) => (
           <Link
             key={category.id}
-            to={`/categories/${encodeURIComponent(category.name)}`}
+            to={`/categories/${category.slug}`}
             className={styles.item}
             aria-label={`View ${category.name} recipes`}
           >
@@ -30,6 +36,7 @@ const CategoriesList = () => {
           </Link>
         ))}
       </div>
+
       <button
         className={"button"}
         onClick={() => {

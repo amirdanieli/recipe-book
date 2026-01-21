@@ -1,20 +1,18 @@
 import { useNavigate, useParams } from "react-router";
 import styles from "./AddEditRecipe.module.css";
 import { useEffect, useState } from "react";
-import mockRecipes from "../models/MockRecipe";
 import type { Ingredient } from "../models/Ingredient";
+import { getAllCategories } from "../services/categoryService";
+import {
+  createRecipe,
+  getRecipeBySlug,
+  updateRecipe,
+} from "../services/recipeService";
+import { Category } from "../models/Category";
+import { uploadImage } from "../services/imageService";
 
 const AddEditRecipe = () => {
-  const categories = [
-    // NEED TO FETCH FROM API
-    { id: "c-breakfast", name: "Breakfast" },
-    { id: "c-lunch", name: "Lunch" },
-    { id: "c-dinner", name: "Dinner" },
-    { id: "c-dessert", name: "Dessert" },
-    { id: "c-snacks", name: "Snacks" },
-    { id: "c-drinks", name: "Drinks" },
-  ];
-
+  const [categories, setCategories] = useState<Category[]>([]);
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
 
@@ -28,49 +26,80 @@ const AddEditRecipe = () => {
   const [story, setStory] = useState("");
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [steps, setSteps] = useState<string[]>([]);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getAllCategories();
+        setCategories(data);
+      } catch (err) {
+        console.error("Failed to fetch categories", err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     if (isEditMode && slug) {
-      const recipeToEdit = mockRecipes.find((r) => r.slug === slug);
-      if (recipeToEdit) {
-        setTitle(recipeToEdit.title);
-        setCategory(recipeToEdit.categoryId);
-        setDifficulty(recipeToEdit.difficulty);
-        setPrepTimeMinutes(recipeToEdit.prepTimeMinutes);
-        setCookTimeMinutes(recipeToEdit.cookTimeMinutes);
-        setStory(recipeToEdit.story);
-        setIngredients(recipeToEdit.ingredients);
-        setSteps(recipeToEdit.steps);
-      } else {
-        console.error("Recipe not found for editing");
-        navigate("/");
-      }
+      const fetchRecipe = async () => {
+        try {
+          const recipeToEdit = await getRecipeBySlug(slug);
+          setTitle(recipeToEdit.title);
+          setCategory(recipeToEdit.categoryId);
+          setDifficulty(recipeToEdit.difficulty);
+          setPrepTimeMinutes(recipeToEdit.prepTimeMinutes);
+          setCookTimeMinutes(recipeToEdit.cookTimeMinutes);
+          setStory(recipeToEdit.story);
+          setIngredients(recipeToEdit.ingredients);
+          setSteps(recipeToEdit.steps);
+          setImageUrl(recipeToEdit.imageUrl || "");
+        } catch (err) {
+          console.error("Recipe not found for editing", err);
+          navigate("/");
+        }
+      };
+      fetchRecipe();
     }
   }, [isEditMode, slug, navigate]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    let uploadedImageUrl = imageUrl;
+    if (imageFile) {
+      try {
+        const uploadRes = await uploadImage(imageFile);
+        uploadedImageUrl = uploadRes.url;
+      } catch (err) {
+        console.error("Image upload failed", err);
+        return;
+      }
+    }
 
     const recipeData = {
       title,
       categoryId: category,
-      difficulty,
+      difficulty: difficulty as any,
       prepTimeMinutes,
       cookTimeMinutes,
       story,
       ingredients,
       steps,
+      imageUrl: uploadedImageUrl,
     };
 
-    if (isEditMode) {
-      console.log("Updating recipe:", recipeData);
-      // Call API to UPDATE
-    } else {
-      console.log("Creating new recipe:", recipeData);
-      // Call API to CREATE
+    try {
+      if (isEditMode && slug) {
+        await updateRecipe(slug, recipeData);
+      } else {
+        await createRecipe(recipeData);
+      }
+      navigate("/");
+    } catch (err) {
+      console.error("Failed to save recipe", err);
     }
-
-    navigate("/");
   };
 
   const handleAddIngredient = () => {
@@ -80,7 +109,7 @@ const AddEditRecipe = () => {
   const handleIngredientChange = (
     index: number,
     field: keyof Ingredient,
-    value: string
+    value: string,
   ) => {
     const newIngredients = [...ingredients];
     newIngredients[index] = { ...newIngredients[index], [field]: value };
@@ -149,10 +178,25 @@ const AddEditRecipe = () => {
             required
           >
             <option value="">Select Difficulty</option>
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
+            <option value="EASY">Easy</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HARD">Hard</option>
           </select>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Image:</label>
+          <input
+            type="file"
+            className={styles.input}
+            onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+            accept="image/*"
+          />
+          {imageUrl && !imageFile && (
+            <div className={styles.imagePreview}>
+              <img src={imageUrl} alt="Current recipe" />
+            </div>
+          )}
         </div>
 
         <div className={styles.formGroup}>

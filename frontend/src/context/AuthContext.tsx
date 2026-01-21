@@ -6,28 +6,27 @@ import {
   useEffect,
 } from "react";
 import { verifySession, logout as apiLogout } from "../services/authService";
+import { User } from "../utils/types";
 
 interface AuthContextType {
-  user: string | null;
+  user: User | null;
   isAdmin: boolean;
   isLoading: boolean;
-  login: (token: string, user: string) => void;
+  login: (user: User) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const data = await verifySession();
-        if (data && data.user) {
-          setUser(data.user);
-        }
+        const userData = await verifySession();
+        setUser(userData);
       } catch {
         setUser(null);
       } finally {
@@ -38,8 +37,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     initAuth();
   }, []);
 
-  const login = (newUser: string) => {
-    setUser(newUser);
+  const login = (userData: User) => {
+    setUser(userData);
   };
 
   const logout = async () => {

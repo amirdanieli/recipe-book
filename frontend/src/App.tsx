@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/categories" element={<CategoriesList />} />
-          <Route path="/categories/:name" element={<SingleCategoryPage />} />
+          <Route path="/categories/:slug" element={<SingleCategoryPage />} />
           <Route path="/recipes/:slug" element={<RecipeDetail />} />
 
           <Route element={<RequireAuth />}>

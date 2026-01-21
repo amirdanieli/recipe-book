@@ -19,7 +19,7 @@ const AdminLogin = () => {
 
     try {
       const data = await apiLogin(email, password);
-      login(data.token, data.user);
+      login(data.user);
       navigate("/");
     } catch (err) {
       setError("Invalid email or password");

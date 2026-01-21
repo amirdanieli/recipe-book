@@ -1,34 +1,24 @@
-const API_URL = "http://localhost:5000/api/auth"; //PLACE HOLDER
+import { apiClient } from "./apiClient";
+import { LoginResponse, User } from "../utils/types";
 
-export const login = async (email: string, password: string) => {
-    const response = await fetch(`${API_URL}/admin/login`, {
+export const login = async (email: string, password: string): Promise<LoginResponse> => {
+    return apiClient<LoginResponse>("/auth/admin/login", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
+        body: { email, password },
     });
-    if (!response.ok) {
-        throw new Error("Login failed");
-    }
-    const data = await response.json();
-    return data; 
 };
 
-export const logout = async () => {
-  await fetch(`${API_URL}/admin/logout`, {
-    method: "POST", 
-    credentials: "include",
+export const logout = async (): Promise<void> => {
+  return apiClient("/auth/admin/logout", {
+    method: "POST",
   });
 };
 
-export const verifySession = async () => {
-  const response = await fetch(`${API_URL}/admin/verify`, { // Endpoint depends on backend
-    method: "GET",
-    credentials: "include",
-  });
-  
-  if (!response.ok) return null;
-  return response.json();
+export const verifySession = async (): Promise<User | null> => {
+  try {
+    const data = await apiClient<{ user: User }>("/auth/admin/verify");
+    return data.user;
+  } catch (error) {
+    return null;
+  }
 };

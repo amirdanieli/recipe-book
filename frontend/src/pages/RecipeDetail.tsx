@@ -1,24 +1,34 @@
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import type { Recipe } from "../models/Recipe";
-import mockRecipes from "../models/MockRecipe";
-import { categories } from "../models/Category";
 import styles from "./RecipeDetail.module.css";
-import { useAuth } from "../hooks/useAuth"; //Place holder for dev
-// import { useAuth } from "../context/AuthContext"; USE THIS AT PRODUCTION
+import { useAuth } from "../hooks/useAuth";
+import { useEffect, useState } from "react";
+import { deleteRecipe, getRecipeBySlug } from "../services/recipeService";
+import LoadingSpinner from "../components/Loader/LoadingSpinner";
 
 const RecipeDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const location = useLocation();
   const navigate = useNavigate();
 
-  const auth = useAuth();
-  const isAdmin = auth?.isAdmin;
+  const { isAdmin } = useAuth();
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const stateRecipe = (location.state as { recipe?: Recipe } | null)?.recipe;
-
-  const recipeSlug = slug ? decodeURIComponent(slug) : undefined;
-  const recipe =
-    stateRecipe ?? mockRecipes.find((r) => r.slug === recipeSlug) ?? null;
+  useEffect(() => {
+    if (slug) {
+      const fetchRecipe = async () => {
+        try {
+          const data = await getRecipeBySlug(slug);
+          setRecipe(data);
+        } catch (err) {
+          console.error("Failed to fetch recipe", err);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchRecipe();
+    }
+  }, [slug]);
 
   const handleEdit = () => {
     if (!isAdmin) {
@@ -26,22 +36,27 @@ const RecipeDetail = () => {
       return;
     }
     if (recipe) {
-      navigate(`/edit/${encodeURIComponent(recipe.slug)}`);
+      navigate(`/edit/${recipe.slug}`);
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!isAdmin) {
       navigate("/admin/login");
       return;
     }
     if (!recipe) return;
     if (window.confirm(`Are you sure you want to delete "${recipe.title}"?`)) {
-      console.log("Deleting recipe:", recipe.id);
-      // TODO: Call API to delete
-      navigate("/"); // Redirect home after delete
+      try {
+        await deleteRecipe(recipe.slug);
+        navigate("/");
+      } catch (err) {
+        console.error("Failed to delete recipe", err);
+      }
     }
   };
+
+  if (isLoading) return <LoadingSpinner />;
 
   if (!recipe)
     return (
@@ -106,7 +121,7 @@ const RecipeDetail = () => {
           className={"button"}
           onClick={() => {
             const catName = (categories || []).find(
-              (c) => String(c.id) === String(recipe.categoryId)
+              (c) => String(c.id) === String(recipe.categoryId),
             )?.name;
             if (catName) {
               navigate(`/categories/${encodeURIComponent(catName)}`);
