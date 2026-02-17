@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import styles from "./Header.module.css";
 
@@ -7,26 +8,26 @@ const Header = () => {
   return (
     <header className={styles.container}>
       <h1>
-        <a href="/" className={styles.title}>
+        <Link to="/" className={styles.title}>
           Danieli's Recipe Book
-        </a>
+        </Link>
       </h1>
       <nav className={styles.nav}>
-        <a className={styles.link} href="/">
+        <Link className={styles.link} to="/">
           Home
-        </a>
-        <a className={styles.link} href="/categories">
+        </Link>
+        <Link className={styles.link} to="/categories">
           Categories
-        </a>
+        </Link>
         {isAdmin && (
-          <a className={styles.link} href="/add">
+          <Link className={styles.link} to="/add">
             Add Recipe
-          </a>
+          </Link>
         )}
         {!isAdmin && (
-          <a className={styles.link} href="/admin/login">
+          <Link className={styles.link} to="/admin/login">
             Admin Login
-          </a>
+          </Link>
         )}
         {isAdmin && <button onClick={logout}>Logout</button>}
       </nav>

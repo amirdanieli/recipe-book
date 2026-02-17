@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./CategoriesList.module.css";
 import { useEffect, useState } from "react";
-import { Category } from "../models/Category";
+import type { Category } from "../models/Category";
 import { getAllCategories } from "../services/categoryService";
 
 const CategoriesList = () => {

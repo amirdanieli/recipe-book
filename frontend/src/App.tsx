@@ -12,10 +12,10 @@ import RequireAuth from "./components/Auth/RequireAuth";
 
 function App() {
   return (
-    <AuthProvider>
-      <Header />
-      <div className={headerStyles["header-spacer"]} />
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
+        <Header />
+        <div className={headerStyles["header-spacer"]} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/categories" element={<CategoriesList />} />
@@ -28,8 +28,8 @@ function App() {
           </Route>
           <Route path="/admin/login" element={<AdminLogin />} />
         </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

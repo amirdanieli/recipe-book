@@ -39,6 +39,7 @@ export const apiClient = async <T>(endpoint: string, options: RequestOptions = {
   if (response.ok) {
     return data;
   } else {
+    console.error(`API Error: ${response.status}`, data);
     throw new Error(data.message || "Something went wrong");
   }
 };

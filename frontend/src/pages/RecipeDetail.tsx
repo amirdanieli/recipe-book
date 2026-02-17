@@ -4,6 +4,8 @@ import styles from "./RecipeDetail.module.css";
 import { useAuth } from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { deleteRecipe, getRecipeBySlug } from "../services/recipeService";
+import { getAllCategories } from "../services/categoryService";
+import type { Category } from "../models/Category";
 import LoadingSpinner from "../components/Loader/LoadingSpinner";
 
 const RecipeDetail = () => {
@@ -12,21 +14,26 @@ const RecipeDetail = () => {
 
   const { isAdmin } = useAuth();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (slug) {
-      const fetchRecipe = async () => {
+      const fetchData = async () => {
         try {
-          const data = await getRecipeBySlug(slug);
-          setRecipe(data);
+          const [recipeData, categoriesData] = await Promise.all([
+            getRecipeBySlug(slug),
+            getAllCategories(),
+          ]);
+          setRecipe(recipeData);
+          setCategories(categoriesData);
         } catch (err) {
           console.error("Failed to fetch recipe", err);
         } finally {
           setIsLoading(false);
         }
       };
-      fetchRecipe();
+      fetchData();
     }
   }, [slug]);
 
@@ -121,7 +128,7 @@ const RecipeDetail = () => {
           className={"button"}
           onClick={() => {
             const catName = (categories || []).find(
-              (c) => String(c.id) === String(recipe.categoryId),
+              (c: any) => String(c.id) === String(recipe?.categoryId),
             )?.name;
             if (catName) {
               navigate(`/categories/${encodeURIComponent(catName)}`);

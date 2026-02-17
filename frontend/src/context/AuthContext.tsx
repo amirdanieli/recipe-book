@@ -6,7 +6,8 @@ import {
   useEffect,
 } from "react";
 import { verifySession, logout as apiLogout } from "../services/authService";
-import { User } from "../utils/types";
+import type { User } from "../utils/types";
+import LoadingSpinner from "../components/Loader/LoadingSpinner";
 
 interface AuthContextType {
   user: User | null;
@@ -54,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{ user, isAdmin: !!user, isLoading, login, logout }}
     >
-      {isLoading ? <div>Loading session...</div> : children}
+      {isLoading ? <LoadingSpinner /> : children}
     </AuthContext.Provider>
   );
 };

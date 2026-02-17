@@ -48,11 +48,11 @@ export const mockRecipes: Recipe[] = [
   mk(13, "Apple Pie", "apple-pie", "c-dessert", "MEDIUM", 70, 45),
   mk(14, "Banana Bread", "banana-bread", "c-dessert", "EASY", 65, 50),
   mk(15, "Roasted Chickpeas", "roasted-chickpeas", "c-snacks", "EASY", 25, 20),
-  mk(16, "Trail Mix", "trail-mix", "c-snacks", "Easy", 5, 0),
-  mk(17, "Nacho Platter", "nacho-platter", "c-snacks", "Easy", 20, 10),
-  mk(18, "Strawberry Smoothie", "strawberry-smoothie", "c-drinks", "Easy", 5, 0),
-  mk(19, "Iced Coffee", "iced-coffee", "c-drinks", "Easy", 5, 0),
-  mk(20, "Mango Lassi", "mango-lassi", "c-drinks", "Easy", 10, 5),
+  mk(16, "Trail Mix", "trail-mix", "c-snacks", "EASY", 5, 0),
+  mk(17, "Nacho Platter", "nacho-platter", "c-snacks", "EASY", 20, 10),
+  mk(18, "Strawberry Smoothie", "strawberry-smoothie", "c-drinks", "EASY", 5, 0),
+  mk(19, "Iced Coffee", "iced-coffee", "c-drinks", "EASY", 5, 0),
+  mk(20, "Mango Lassi", "mango-lassi", "c-drinks", "EASY", 10, 5),
 ];
 
 export default mockRecipes;

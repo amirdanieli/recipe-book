@@ -1,4 +1,4 @@
-import { Category } from "../models/Category";
+import type { Category } from "../models/Category";
 import { apiClient } from "./apiClient";
 
 export const getAllCategories = async (): Promise<Category[]> => {

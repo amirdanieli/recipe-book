@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./AddEditRecipe.module.css";
 import { useEffect, useState } from "react";
 import type { Ingredient } from "../models/Ingredient";
@@ -8,7 +8,7 @@ import {
   getRecipeBySlug,
   updateRecipe,
 } from "../services/recipeService";
-import { Category } from "../models/Category";
+import type { Category } from "../models/Category";
 import { uploadImage } from "../services/imageService";
 
 const AddEditRecipe = () => {

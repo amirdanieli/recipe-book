@@ -3,7 +3,7 @@ import RecipeCard from "../RecipeCard/RecipeCard";
 import styles from "./SingleCategoryPage.module.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Recipe } from "../../models/Recipe";
+import type { Recipe } from "../../models/Recipe";
 import { getAllRecipes } from "../../services/recipeService";
 import { getCategoryByIdOrSlug } from "../../services/categoryService";
 
