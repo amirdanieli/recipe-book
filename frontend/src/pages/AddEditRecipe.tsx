@@ -96,7 +96,13 @@ const AddEditRecipe = () => {
       } else {
         await createRecipe(recipeData);
       }
-      navigate("/");
+
+      const selectedCategory = categories.find((cat) => cat.id === category);
+      if (selectedCategory?.slug) {
+        navigate(`/categories/${selectedCategory.slug}`);
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       console.error("Failed to save recipe", err);
     }

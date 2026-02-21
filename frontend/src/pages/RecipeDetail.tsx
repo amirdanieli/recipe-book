@@ -56,7 +56,15 @@ const RecipeDetail = () => {
     if (window.confirm(`Are you sure you want to delete "${recipe.title}"?`)) {
       try {
         await deleteRecipe(recipe.slug);
-        navigate("/");
+
+        const categoryObj = categories.find(
+          (c) => String(c.id) === String(recipe.categoryId),
+        );
+        if (categoryObj?.slug) {
+          navigate(`/categories/${categoryObj.slug}`);
+        } else {
+          navigate("/categories");
+        }
       } catch (err) {
         console.error("Failed to delete recipe", err);
       }
@@ -127,11 +135,11 @@ const RecipeDetail = () => {
         <button
           className={"button"}
           onClick={() => {
-            const catName = (categories || []).find(
-              (c: any) => String(c.id) === String(recipe?.categoryId),
-            )?.name;
-            if (catName) {
-              navigate(`/categories/${encodeURIComponent(catName)}`);
+            const categoryObj = categories.find(
+              (c) => String(c.id) === String(recipe?.categoryId),
+            );
+            if (categoryObj?.slug) {
+              navigate(`/categories/${categoryObj.slug}`);
             } else {
               navigate("/categories");
             }
